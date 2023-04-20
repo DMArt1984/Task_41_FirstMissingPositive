@@ -49,29 +49,30 @@ namespace Task_41_FirstMissingPositive
         {
             Console.WriteLine("-------------------------");
 
-            List<int> lst = new List<int>();
-            lst.AddRange(nums);
-            lst = lst.Where(x => x > 0).Distinct().OrderBy(x => x).ToList();
+            nums = nums.Where(x => x > 0).Distinct().OrderBy(x => x).ToArray();
 
-            Console.WriteLine("[ "+String.Join(", ", lst)+$" ] COUNT = {lst.Count()}");
+            Console.WriteLine("[ "+String.Join(", ", nums)+$" ] COUNT = {nums.Length}");
 
-            int len = lst.Count();
-            int range = len / 2;
-            int finder = range;
+            int len = nums.Length;
 
             if (len == 0)
                 return 1;
 
-            if (lst[0] > 1)
+            if (nums[0] > 1)
                 return 1;
 
-            if (lst.Last() == len)
+            if (nums[len-1] == len)
                 return len + 1;
 
-            int result = lst.Last() + 1;
+            if (len == 1 && nums[0] < 1)
+                return 1;
+
+            int result = nums[len - 1] + 1;
+            int range = len / 2;
+            int finder = range;
             do
             {
-                int value = lst[finder];
+                int value = nums[finder];
 
                 if (value > finder + 1)
                 {
@@ -84,7 +85,7 @@ namespace Task_41_FirstMissingPositive
                         do
                         {
                             Console.WriteLine("Back");
-                            result = lst[finder - 1] + 1;
+                            result = nums[finder - 1] + 1;
                             if (result > finder + 1 && finder - 2 >= 0)
                             {
                                 finder--;
@@ -109,7 +110,7 @@ namespace Task_41_FirstMissingPositive
                         do
                         {
                             Console.WriteLine("Front");
-                            if (lst[finder + 1] == result)
+                            if ( nums[finder + 1] == result) // finder + 1 < len &&
                             {
                                 result++;
                                 finder++;
